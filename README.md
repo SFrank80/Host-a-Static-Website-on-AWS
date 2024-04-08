@@ -1,3 +1,6 @@
+![Alt-text](/Host_a_Static_Website_on_AWS.png)
+
+ ---
  This README provides a concise yet detailed guide for deploying a static website on AWS, perfect for collaborators or users interested in replicating or contributing to your project.
 
 # Hosting a Static Website on AWS
