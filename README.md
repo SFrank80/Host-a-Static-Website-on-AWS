@@ -44,11 +44,10 @@ Below is the script to set up your EC2 instances with the static website content
 # This script is designed to be run on an Amazon Linux 2 EC2 instance with root privileges.
 # It will install Apache, clone your static website from GitHub, and configure Apache to serve the website.
 
-# Ensure running as root
-if [ "$(id -u)" != "0" ]; then
-   echo "This script must be run as root" 1>&2
-   exit 1
-fi
+#!/bin/bash
+
+# Switch to the root user to gain full administrative privileges
+sudo su
 
 # Update all installed packages
 yum update -y
@@ -56,28 +55,35 @@ yum update -y
 # Install Apache HTTP Server
 yum install -y httpd
 
+# Change the current working directory to the Apache web root
+cd /var/www/html
+
 # Install Git
 yum install -y git
 
-# Navigate to the Apache document root
-cd /var/www/html
-
-# Clone the project repository (Replace the URL with your repository URL)
-git clone https://github.com/YourUsername/YourRepositoryName.git .
+# Clone the project GitHub repository to the current directory
+git clone https://github.com/SFrank80/Host-a-Static-Website-on-AWS.git
 
 # Enable Apache HTTP Server on boot
 systemctl enable httpd
 
-# Start Apache HTTP Server
+# Copy all files, including hidden ones, from the cloned repository to the Apache web root
+cp -R Host-a-Static-Website-on-AWS/. /var/www/html/
+
+# Remove the cloned repository directory to clean up unnecessary files
+rm -rf Host-a-Static-Website-on-AWS
+
+# Enable the Apache HTTP Server to start automatically at system boot
+systemctl enable httpd 
+
+# Start the Apache HTTP Server to serve web content
 systemctl start httpd
 
 echo "Website deployment successful."
 ```
 
-Make sure to adjust the `git clone https://github.com/YourUsername/YourRepositoryName.git .` line to point to your project's repository.
-
 ## Conclusion
 
-This setup ensures a scalable, secure, and fault-tolerant environment for hosting a static web application, leveraging AWS's robust infrastrusture.
+This setup ensures a scalable, secure, and fault-tolerant environment for hosting a static web application, leveraging AWS's robust infrastructure.
 
-Replace `https://github.com/YourUsername/YourRepositoryName.git` with the actual URL to your GitHub repository where the static website's files are stored.
+Replace ` https://github.com/SFrank80/Host-a-Static-Website-on-AWS.git` with the actual URL to your GitHub repository where the static website's files are stored.
