@@ -67,17 +67,17 @@ git clone https://github.com/SFrank80/Host-a-Static-Website-on-AWS.git
 # Enable Apache HTTP Server on boot
 systemctl enable httpd
 
+# Start the Apache HTTP Server to serve web content
+systemctl start httpd
+
 # Copy all files, including hidden ones, from the cloned repository to the Apache web root
 cp -R Host-a-Static-Website-on-AWS/. /var/www/html/
 
 # Remove the cloned repository directory to clean up unnecessary files
 rm -rf Host-a-Static-Website-on-AWS
 
-# Enable the Apache HTTP Server to start automatically at system boot
-systemctl enable httpd 
-
-# Start the Apache HTTP Server to serve web content
-systemctl start httpd
+# Restart the Apache HTTP Server to serve web content
+systemctl restart httpd
 
 echo "Website deployment successful."
 ```
